@@ -6,7 +6,7 @@ import (
 	"strconv"
 
 	"github.com/ivybridge-3c33/golang-elastic-apm/configs"
-	mysql "go.elastic.co/apm/module/apmgormv2/driver/mysql"
+	apmmysql "go.elastic.co/apm/module/apmgormv2/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
 )
@@ -20,36 +20,13 @@ type (
 // dbMySQL variable for define connection
 var dbMySQL map[string]*gorm.DB = make(map[string]*gorm.DB)
 
-// CreateMySQLConnection make connection
-// example
-// connection := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8&parseTime=True&loc=Local",
-// 	os.Getenv("MYSQL_USERNAME"),
-// 	os.Getenv("MYSQL_PASSWORD"),
-// 	os.Getenv("MYSQL_HOST"),
-// 	os.Getenv("MYSQL_PORT"),
-// 	os.Getenv("MYSQL_DBNAME"),
-// )
-// bootstraps.CreateMySQLConnection(&configs.MySQLConn{
-// 	Config: mysql.Config{
-//   DSN: connection,
-//  },
-// })
-// new(bootstraps.MySQL).DB()
-// bootstraps.CreateMySQLConnection(&configs.MySQLConn{
-// 	Config: mysql.Config{
-//   DSN: connection,
-//  },
-// 	ConnectionName: "staging"
-// })
-// new(bootstraps.MySQL).DB("staging")
-// })
 func CreateMySQLConnection(conf *configs.MySQLConn) *gorm.DB {
 	connectionName := "default"
 	if conf.ConnectionName != "" {
 		connectionName = conf.ConnectionName
 	}
 
-	db, err := gorm.Open(mysql.Open(conf.DSN), &gorm.Config{
+	db, err := gorm.Open(apmmysql.Open(conf.DSN), &gorm.Config{
 		Logger: logger.Default.LogMode(logger.Silent),
 	})
 

@@ -22,7 +22,8 @@ func (h *TestHandler) Home(c *gin.Context) {
 	index := "TEST_INDEX"
 	if cache, err := h.redis.DB().Get(ct, index).Result(); err != nil {
 		if err == redis.Nil {
-			if err := h.mysql.DB().WithContext(ct).Find(&models).Error; err != nil {
+			db := h.mysql.DB().WithContext(ct)
+			if err := db.Find(&models).Error; err != nil {
 				c.JSON(http.StatusInternalServerError, gin.H{
 					"error": err.Error(),
 				})

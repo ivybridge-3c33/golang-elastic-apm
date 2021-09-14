@@ -1,8 +1,6 @@
 package entities
 
 import (
-	"encoding/json"
-
 	"gorm.io/gorm"
 )
 
@@ -11,10 +9,10 @@ type Test struct {
 	Name string `gorm:"column:name;type:varchar(20)" json:"name"`
 }
 
-func (e *Test) MarshalJSON() ([]byte, error) {
-	return json.Marshal(e)
-}
+// func (e *Test) MarshalJSON() ([]byte, error) {
+// 	return json.Marshal(e)
+// }
 
-func (e *Test) UnmarshalBinary(data []byte) error {
-	return json.Unmarshal(data, e)
-}
+// func (e *Test) UnmarshalBinary(data []byte) error {
+// 	return json.Unmarshal(data, e)
+// }
